@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.329
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "whatsapp-api", "whatsapp-api.csproj", "{D30A747A-48BA-4AEF-82E1-0C9C6BC83093}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D30A747A-48BA-4AEF-82E1-0C9C6BC83093}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D30A747A-48BA-4AEF-82E1-0C9C6BC83093}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D30A747A-48BA-4AEF-82E1-0C9C6BC83093}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D30A747A-48BA-4AEF-82E1-0C9C6BC83093}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6E00E30B-5451-4FA7-B2D4-F531259DDC71}
+	EndGlobalSection
+EndGlobal

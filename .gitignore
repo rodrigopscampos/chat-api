@@ -1,0 +1,5 @@
+.axoCover/
+bin/
+packages/
+obj/
+.vs/
