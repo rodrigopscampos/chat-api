@@ -20,8 +20,8 @@
     "whatsapp_api": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api/values",
-      "applicationUrl": "https://192.168.3.174:5001;http://192.168.3.174:5000;https://localhost:5001;http://localhost:5000;",
+      "launchUrl": "",
+      "applicationUrl": "http://127.0.0.1:8080",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

@@ -13,12 +13,12 @@ stage 'Restore'
 stage 'Build'
  node('') {
   sh 'dotnet build'
-  sh 'dotnet publish "whatsapp-api.csproj" -c Release -o ./app'
+  sh 'dotnet publish "whatsapp-api.csproj" -c Release -o ./publish'
  }
 stage 'Package'
  node('') {
   docker.withRegistry('', 'credentials-docker'){
-  customImage = docker.build("gabrielmuniz95/whatsapp-api:${env.BUILD_ID}")
+  customImage = docker.build("rodrigopscampos/whatsapp-api:latest")
   }
  }
 stage 'Publish'
