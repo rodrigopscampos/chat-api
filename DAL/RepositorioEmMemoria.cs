@@ -8,7 +8,12 @@ namespace whatsapp_api.DAL
 {
     public class RepositorioEmMemoria : IRepositorio
     {
-        List<Usuario> _usuarios = new List<Usuario>();
+        List<Usuario> _usuarios = new List<Usuario>()
+        {
+            new Usuario { Id = 1, Nome = "Rodrigo" },
+            new Usuario { Id = 2, Nome = "Gabriel" },
+            new Usuario { Id = 3, Nome = "Oliver" },
+        };
 
         public IEnumerable<Usuario> GetUsuarios() => _usuarios;
 
