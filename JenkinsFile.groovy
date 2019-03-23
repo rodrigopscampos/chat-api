@@ -23,5 +23,6 @@ stage 'Package'
  }
 stage 'Publish'
  node('') {
-  customImage.push('29','latest')
+     customImage.push()
+  customImage.push('latest')
 }
