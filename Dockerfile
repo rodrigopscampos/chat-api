@@ -1,5 +1,5 @@
 FROM microsoft/dotnet:aspnetcore-runtime
 WORKDIR /app
-EXPOSE 8080
 ADD /publish/* ./
+ENV ASPNETCORE_URLS=http://+:5000
 ENTRYPOINT ["dotnet", "whatsapp-api.dll"]
