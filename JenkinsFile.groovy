@@ -19,7 +19,8 @@ stage 'Package'
  node('') {
   docker.withRegistry('', 'credentials-docker'){
   customImage = docker.build("gabrielmuniz95/whatsapp-api:${env.BUILD_ID}")
-  def tag =  'docker tag gabrielmuniz95/whatsapp-api:' + ${env.BUILD_ID} +  ' gabrielmuniz95/whatsapp-api:latest'
+  def numberVersion = "${env.BUILD_ID}"
+  def tag =  'docker tag gabrielmuniz95/whatsapp-api: "${env.BUILD_ID}" gabrielmuniz95/whatsapp-api:latest'
   echo tag
   sh  tag
   }
