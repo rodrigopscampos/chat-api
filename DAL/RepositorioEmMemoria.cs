@@ -15,6 +15,9 @@ namespace whatsapp_api.DAL
             new Usuario { Id = 3, Nome = "Oliver" },
         };
 
+        List<Mensagem> _mensagens
+            = new List<Mensagem>();
+
         public IEnumerable<Usuario> GetUsuarios() => _usuarios;
 
         public bool TryAddUsuario(UsuarioInput usuario, out int id)
@@ -34,6 +37,28 @@ namespace whatsapp_api.DAL
             });
 
             return true;
+        }
+
+        public bool TryAddMensagem(MensagemInput mensagem)
+        {
+            var id = _mensagens.Any() ? _mensagens.Max(u => u.Id) + 1 : 1;
+
+            _mensagens.Add(new Mensagem
+            {
+                Id = id,
+                Texto = mensagem.Texto,
+                Rementente = mensagem.Remetente,
+                Destinatario = mensagem.Destinatario
+            });
+
+            return true;
+        }
+
+        public IEnumerable<Mensagem> GetMensagens(int destinatario, int seqnumInicio)
+        {
+            return _mensagens
+                .Where(m => m.Destinatario == destinatario && m.Id > seqnumInicio)
+                .OrderBy(m => m.Id);
         }
     }
 }

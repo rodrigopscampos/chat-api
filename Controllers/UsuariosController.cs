@@ -7,7 +7,7 @@ using whatsapp_api.DTO.Output;
 
 namespace whatsapp_api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class UsuariosController : ControllerBase
     {
@@ -24,7 +24,6 @@ namespace whatsapp_api.Controllers
             return usuarios.Select(u => new UsuarioOutput(u)).ToArray();
         }
 
-        // POST api/values
         [HttpPost]
         public ActionResult<UsuarioPostOutput> Post([FromBody] UsuarioInput usuario)
         {

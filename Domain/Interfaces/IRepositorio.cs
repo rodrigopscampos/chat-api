@@ -8,5 +8,8 @@ namespace whatsapp_api.Domain.Interfaces
     {
         IEnumerable<Usuario> GetUsuarios();
         bool TryAddUsuario(UsuarioInput usuario, out int id);
+
+        IEnumerable<Mensagem> GetMensagens(int remetente, int seqnumInicio);
+        bool TryAddMensagem(MensagemInput mensagem);
     }
 }
