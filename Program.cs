@@ -7,6 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration.CommandLine;
 
 namespace whatsapp_api
 {
@@ -19,7 +20,6 @@ namespace whatsapp_api
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .UseUrls("http://127.0.0.1:8080");
+                .UseStartup<Startup>();
     }
 }
