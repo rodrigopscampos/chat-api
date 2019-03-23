@@ -23,5 +23,5 @@ stage 'Package'
  }
 stage 'Publish'
  node('') {
-  customImage.push('latest')
+  customImage.push(${env.BUILD_ID},'latest')
 }
