@@ -45,7 +45,13 @@ namespace whatsapp_api
             }
 
             //app.UseHttpsRedirection();
-            app.UseCors();
+            app.UseCors(opt => 
+            {
+                opt.AllowAnyOrigin();
+                opt.AllowAnyHeader();
+                opt.AllowAnyMethod();
+            });
+
             app.UseMvc();
         }
     }
