@@ -13,7 +13,7 @@ stage 'Restore'
 stage 'Build'
  node('') {
   sh 'dotnet build'
-  sh 'dotnet publish "whatsapp-api.csproj" -c Release -o ./app'
+  sh 'dotnet publish "whatsapp-api.csproj" -c Release -o ./publish'
  }
 stage 'Package'
  node('') {
