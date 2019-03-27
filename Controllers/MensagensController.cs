@@ -14,13 +14,13 @@ namespace whatsapp_api.Controllers
     public class MensagensController : ControllerBase
     {
         readonly IRepositorio _repositorio;
-
         
         public MensagensController(IRepositorio repositorio)
         {
             _repositorio = repositorio;
         }
 
+        [HttpGet]
         public ActionResult<IEnumerable<MensagemOutput>> Get(int destinatario, int seqnum)
         {
             return _repositorio.GetMensagens(destinatario, seqnum)

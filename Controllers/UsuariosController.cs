@@ -18,6 +18,7 @@ namespace whatsapp_api.Controllers
             _repositorio = repositorio;
         }
 
+        [HttpGet]
         public ActionResult<IEnumerable<UsuarioOutput>> Get()
         {
             var usuarios = _repositorio.GetUsuarios();

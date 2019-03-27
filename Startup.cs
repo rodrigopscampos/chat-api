@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.Swagger;
 using whatsapp_api.DAL;
 using whatsapp_api.Domain.Interfaces;
 
@@ -29,6 +30,12 @@ namespace whatsapp_api
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSingleton(typeof(IRepositorio), typeof(RepositorioEmMemoria));
+
+            // Register the Swagger generator, defining 1 or more Swagger documents
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,12 +49,23 @@ namespace whatsapp_api
             {
                 app.UseHsts();
             }
-            
-            app.UseCors(opt => 
+
+            app.UseCors(opt =>
             {
                 opt.AllowAnyOrigin();
                 opt.AllowAnyHeader();
                 opt.AllowAnyMethod();
+            });
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.RoutePrefix = string.Empty;
             });
 
             app.UseMvc();
