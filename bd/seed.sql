@@ -1,4 +1,6 @@
-/*
+create database if not exists api;
+use api;
+
 create table usuarios
 (
 	id int primary key auto_increment,
@@ -12,7 +14,6 @@ create table mensagens
     destinatario int,
     texto varchar(10000)
 );
-*/
 
 insert into usuarios (nome) values ('Rafael');
 insert into usuarios (nome) values ('João');
