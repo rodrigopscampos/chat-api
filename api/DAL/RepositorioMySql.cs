@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Microsoft.Extensions.Logging;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,13 @@ namespace whatsapp_api.DAL
 {
     public class RepositorioMySql : IRepositorio
     {
+        private readonly ILogger<RepositorioMySql> _logger;
         private readonly string _connectionString;
 
-        public RepositorioMySql(string connectionString)
+        public RepositorioMySql(string connectionString, ILogger<RepositorioMySql> logger)
         {
             _connectionString = connectionString;
+            _logger = logger;
         }
 
         public IEnumerable<Mensagem> GetMensagens(int destinatario, int seqnumInicio)
@@ -91,8 +94,9 @@ namespace whatsapp_api.DAL
                     return true;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogWarning(ex, "TryAddMensagem({mensagem})", mensagem);
                 return false;
             }
         }
@@ -125,6 +129,8 @@ namespace whatsapp_api.DAL
             }
             catch (Exception ex)
             {
+                _logger.LogWarning(ex, "TryAddUsuario({usuario})");
+
                 id = 0;
                 return false;
             }

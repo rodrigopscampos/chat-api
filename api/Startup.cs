@@ -18,9 +18,13 @@ namespace whatsapp_api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly ILogger Logger;
+        private string _tipoBD;
+
+        public Startup(IConfiguration configuration, ILogger<Startup> logger)
         {
             Configuration = configuration;
+            Logger = logger;
         }
 
         public IConfiguration Configuration { get; }
@@ -28,16 +32,25 @@ namespace whatsapp_api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc(options => 
+            services.AddMvc(options =>
             {
-                
+
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            //services.AddSingleton(typeof(IRepositorio), typeof(RepositorioEmMemoria));
+            _tipoBD = Configuration.GetSection("BD")?.GetValue<string>("TIPO")?.ToLower() ?? "mysql";
 
-            var connectionString = Configuration.GetConnectionString("LocalMySql");
-            services.AddSingleton(typeof(IRepositorio), (_) => new RepositorioMySql(connectionString));
+            if (_tipoBD == "memoria")
+            {
+                services.AddSingleton(typeof(IRepositorio), typeof(RepositorioEmMemoria));
+            }
+            else
+            {
+                var connectionString = CriarConnectionString();
+                services.AddSingleton(typeof(IRepositorio), (serviceProvider) => new RepositorioMySql(
+                    connectionString, 
+                    serviceProvider.GetService<ILogger<RepositorioMySql>>()));
+            }
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
@@ -51,12 +64,14 @@ namespace whatsapp_api
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage();                
             }
             else
             {
                 app.UseHsts();
             }
+
+            Logger.LogInformation($"Banco de dados: '{_tipoBD}'");
 
             app.UseCors(opt =>
             {
@@ -77,6 +92,18 @@ namespace whatsapp_api
             });
 
             app.UseMvc();
+        }
+
+        private string CriarConnectionString()
+        {
+            var configSessao = Configuration.GetSection("BD");
+
+            var servidor = configSessao.GetValue<string>("SERVIDOR");
+            var usuario = configSessao.GetValue<string>("USUARIO");
+            var senha = configSessao.GetValue<string>("SENHA");
+            var database = configSessao.GetValue<string>("DATABASE");
+
+            return $"Server={servidor};Database={database};Uid={usuario};Pwd={senha};";
         }
     }
 }
