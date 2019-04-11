@@ -1,6 +1,16 @@
+FROM microsoft/dotnet:sdk AS build-env
+WORKDIR /app
+
+# Copy csproj and restore as distinct layers
+COPY *.csproj ./
+RUN dotnet restore
+
+# Copy everything else and build
+COPY . ./
+RUN dotnet publish -c Release -o out
+
+# Build runtime image
 FROM microsoft/dotnet:aspnetcore-runtime
 WORKDIR /app
-ADD /publish/* ./
-ENV ASPNETCORE_URLS=http://+:5000
-ENV BD__TIPO=memoria
+COPY --from=build-env /app/out .
 ENTRYPOINT ["dotnet", "chat-api.dll"]
