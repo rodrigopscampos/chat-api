@@ -13,4 +13,8 @@ RUN dotnet publish -c Release -o out
 FROM microsoft/dotnet:aspnetcore-runtime
 WORKDIR /app
 COPY --from=build-env /app/out .
+
+ENV ASPNETCORE_URLS=http://+:5000
+ENV BD__TIPO=memoria
+
 ENTRYPOINT ["dotnet", "chat-api.dll"]
