@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "whatsapp_api": {
+    "chat_api": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "",

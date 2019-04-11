@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using whatsapp_api.Domain.Entities;
-using whatsapp_api.Domain.Interfaces;
-using whatsapp_api.DTO.Input;
+using chat_api.Domain.Entities;
+using chat_api.Domain.Interfaces;
+using chat_api.DTO.Input;
 
-namespace whatsapp_api.DAL
+namespace chat_api.DAL
 {
     public class RepositorioEmMemoria : IRepositorio
     {

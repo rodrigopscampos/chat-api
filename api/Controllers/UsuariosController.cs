@@ -1,14 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
-using whatsapp_api.Domain.Interfaces;
-using whatsapp_api.DTO.Input;
-using whatsapp_api.DTO.Output;
+using chat_api.Domain.Interfaces;
+using chat_api.DTO.Input;
+using chat_api.DTO.Output;
 
-namespace whatsapp_api.Controllers
+namespace chat_api.Controllers
 {
-    [Route("[controller]")]
     [ApiController]
+    [Route("[controller]")]
+    [Produces("application/json")]
     public class UsuariosController : ControllerBase
     {
         readonly IRepositorio _repositorio;
@@ -18,6 +19,10 @@ namespace whatsapp_api.Controllers
             _repositorio = repositorio;
         }
 
+        /// <summary>
+        /// Consulta a lista de usuários
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult<IEnumerable<UsuarioOutput>> Get()
         {
@@ -25,6 +30,11 @@ namespace whatsapp_api.Controllers
             return usuarios.Select(u => new UsuarioOutput(u)).ToArray();
         }
 
+        /// <summary>
+        /// Registra um novo usuário
+        /// </summary>
+        /// <param name="usuario"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult<UsuarioPostOutput> Post([FromBody] UsuarioInput usuario)
         {

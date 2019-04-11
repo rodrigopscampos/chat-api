@@ -3,14 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using whatsapp_api.Domain.Interfaces;
-using whatsapp_api.DTO.Input;
-using whatsapp_api.DTO.Output;
+using chat_api.Domain.Interfaces;
+using chat_api.DTO.Input;
+using chat_api.DTO.Output;
 
-namespace whatsapp_api.Controllers
+namespace chat_api.Controllers
 {
-    [Route("[controller]")]
     [ApiController]
+    [Route("[controller]")]
+    [Produces("application/json")]
     public class MensagensController : ControllerBase
     {
         readonly IRepositorio _repositorio;
@@ -20,6 +21,12 @@ namespace whatsapp_api.Controllers
             _repositorio = repositorio;
         }
 
+        /// <summary>
+        /// Consulta as mensagens postadas
+        /// </summary>
+        /// <param name="destinatario">ID do destinatários das mensagens</param>
+        /// <param name="seqnum">ID da última mensagem consultada, para filtrar apenas as novas</param>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult<IEnumerable<MensagemOutput>> Get(int destinatario, int seqnum)
         {
@@ -28,6 +35,11 @@ namespace whatsapp_api.Controllers
                 .ToArray();
         }
 
+        /// <summary>
+        /// Posta uma nova mensagem
+        /// </summary>
+        /// <param name="mensagem"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Post(MensagemInput mensagem)
         {

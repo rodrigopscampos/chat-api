@@ -9,7 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration.CommandLine;
 
-namespace whatsapp_api
+namespace chat_api
 {
     public class Program
     {

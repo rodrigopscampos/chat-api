@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using whatsapp_api.Domain.Entities;
+using chat_api.Domain.Entities;
 
-namespace whatsapp_api.DTO.Output
+namespace chat_api.DTO.Output
 {
     public class MensagemOutput
     {

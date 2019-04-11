@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using whatsapp_api.Domain.Entities;
-using whatsapp_api.DTO.Input;
+using chat_api.Domain.Entities;
+using chat_api.DTO.Input;
 
-namespace whatsapp_api.Domain.Interfaces
+namespace chat_api.Domain.Interfaces
 {
     public interface IRepositorio
     {

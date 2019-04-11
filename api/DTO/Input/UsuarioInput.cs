@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace whatsapp_api.DTO.Input
+namespace chat_api.DTO.Input
 {
     public class UsuarioInput
     {

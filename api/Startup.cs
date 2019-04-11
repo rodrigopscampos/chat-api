@@ -11,10 +11,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
-using whatsapp_api.DAL;
-using whatsapp_api.Domain.Interfaces;
+using chat_api.DAL;
+using chat_api.Domain.Interfaces;
+using System.Reflection;
+using System.IO;
 
-namespace whatsapp_api
+namespace chat_api
 {
     public class Startup
     {
@@ -48,14 +50,18 @@ namespace whatsapp_api
             {
                 var connectionString = CriarConnectionString();
                 services.AddSingleton(typeof(IRepositorio), (serviceProvider) => new RepositorioMySql(
-                    connectionString, 
+                    connectionString,
                     serviceProvider.GetService<ILogger<RepositorioMySql>>()));
             }
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+                c.SwaggerDoc("v1", new Info { Title = "Chat API", Version = "v1" });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
         }
 
@@ -64,7 +70,7 @@ namespace whatsapp_api
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();                
+                app.UseDeveloperExceptionPage();
             }
             else
             {
@@ -87,7 +93,7 @@ namespace whatsapp_api
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
                 c.RoutePrefix = string.Empty;
             });
 

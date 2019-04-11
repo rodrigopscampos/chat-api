@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace whatsapp_api.DTO.Output
+namespace chat_api.DTO.Output
 {
     public class MensagemPostOutput
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace whatsapp_api.Domain.Entities
+namespace chat_api.Domain.Entities
 {
     public class Usuario
     {

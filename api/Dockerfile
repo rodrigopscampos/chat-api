@@ -2,4 +2,5 @@ FROM microsoft/dotnet:aspnetcore-runtime
 WORKDIR /app
 ADD /publish/* ./
 ENV ASPNETCORE_URLS=http://+:5000
-ENTRYPOINT ["dotnet", "whatsapp-api.dll"]
+ENV BD__TIPO=memoria
+ENTRYPOINT ["dotnet", "chat-api.dll"]
