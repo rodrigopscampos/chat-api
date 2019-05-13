@@ -9,9 +9,10 @@ namespace chat_api.DTO.Output
     public class MensagemOutput
     {
         public int Id { get; set; }
-        public int Remetente { get; set; }
+        public string Remetente { get; set; }
         public string Texto { get; set; }
-        public int Destinatario { get; }
+        public string Destinatario { get; }
+        public bool Reservada { get; set; }
 
         public MensagemOutput(Mensagem mensagem)
         {
@@ -19,6 +20,7 @@ namespace chat_api.DTO.Output
             this.Remetente = mensagem.Rementente;
             this.Texto = mensagem.Texto;
             this.Destinatario = mensagem.Destinatario;
+            this.Reservada = mensagem.Reservada;
         }
     }
 }

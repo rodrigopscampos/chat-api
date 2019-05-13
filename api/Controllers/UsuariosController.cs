@@ -24,9 +24,9 @@ namespace chat_api.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<IEnumerable<UsuarioOutput>> Get()
+        public ActionResult<IEnumerable<UsuarioOutput>> Get([FromQuery] int sequencial = 0)
         {
-            var usuarios = _repositorio.GetUsuarios();
+            var usuarios = _repositorio.GetUsuarios(sequencial);
             return usuarios.Select(u => new UsuarioOutput(u)).ToArray();
         }
 
@@ -38,14 +38,13 @@ namespace chat_api.Controllers
         [HttpPost]
         public ActionResult<UsuarioPostOutput> Post([FromBody] UsuarioInput usuario)
         {
-            if (_repositorio.TryAddUsuario(usuario, out var id))
+            string erro;
+            if (!_repositorio.AddUsuario(usuario, out erro))
             {
-                return new UsuarioPostOutput(id);
+                return BadRequest(new UsuarioPostOutput(sucesso: false, erro: erro));
             }
-            else
-            {
-                return new UsuarioPostOutput(sucesso: false, erro: "Nome já utilizado");
-            }
+
+            return Ok(new UsuarioPostOutput(sucesso: true));
         }
     }
 }

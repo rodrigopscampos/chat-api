@@ -6,10 +6,10 @@ namespace chat_api.Domain.Interfaces
 {
     public interface IRepositorio
     {
-        IEnumerable<Usuario> GetUsuarios();
-        bool TryAddUsuario(UsuarioInput usuario, out int id);
+        IEnumerable<Usuario> GetUsuarios(int sequencial);
+        IEnumerable<Mensagem> GetMensagens(int sequencial);
 
-        IEnumerable<Mensagem> GetMensagens(int destinatario, int seqnumInicio);
-        bool TryAddMensagem(MensagemInput mensagem);
+        bool AddUsuario(UsuarioInput usuario, out string erro);
+        void AddMensagem(MensagemInput mensagem);
     }
 }

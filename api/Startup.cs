@@ -40,7 +40,8 @@ namespace chat_api
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            _tipoBD = Configuration.GetSection("BD")?.GetValue<string>("TIPO")?.ToLower() ?? "mysql";
+            //_tipoBD = Configuration.GetSection("BD")?.GetValue<string>("TIPO")?.ToLower() ?? "mysql";
+            _tipoBD = "memoria";
 
             if (_tipoBD == "memoria")
             {
@@ -48,10 +49,10 @@ namespace chat_api
             }
             else
             {
-                var connectionString = CriarConnectionString();
-                services.AddSingleton(typeof(IRepositorio), (serviceProvider) => new RepositorioMySql(
-                    connectionString,
-                    serviceProvider.GetService<ILogger<RepositorioMySql>>()));
+                //var connectionString = CriarConnectionString();
+                //services.AddSingleton(typeof(IRepositorio), (serviceProvider) => new RepositorioMySql(
+                //    connectionString,
+                //    serviceProvider.GetService<ILogger<RepositorioMySql>>()));
             }
 
             // Register the Swagger generator, defining 1 or more Swagger documents

@@ -15,7 +15,7 @@ namespace chat_api.Controllers
     public class MensagensController : ControllerBase
     {
         readonly IRepositorio _repositorio;
-        
+
         public MensagensController(IRepositorio repositorio)
         {
             _repositorio = repositorio;
@@ -24,13 +24,12 @@ namespace chat_api.Controllers
         /// <summary>
         /// Consulta as mensagens postadas
         /// </summary>
-        /// <param name="destinatario">ID do destinatários das mensagens</param>
-        /// <param name="seqnum">ID da última mensagem consultada, para filtrar apenas as novas</param>
+        /// <param name="sequencial">ID do destinatários das mensagens</param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<IEnumerable<MensagemOutput>> Get(int destinatario, int seqnum)
+        public ActionResult<IEnumerable<MensagemOutput>> Get(int sequencial)
         {
-            return _repositorio.GetMensagens(destinatario, seqnum)
+            return _repositorio.GetMensagens(sequencial)
                 .Select(m => new MensagemOutput(m))
                 .ToArray();
         }
@@ -43,11 +42,7 @@ namespace chat_api.Controllers
         [HttpPost]
         public ActionResult Post(MensagemInput mensagem)
         {
-            if (!_repositorio.TryAddMensagem(mensagem))
-            {
-                return BadRequest(new MensagemPostOutput(sucesso: false, erro: "Destinatário não exite"));
-            }
-
+            _repositorio.AddMensagem(mensagem);
             return Ok();
         }
     }

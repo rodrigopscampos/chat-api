@@ -9,15 +9,8 @@ namespace chat_api.DTO.Output
     {
         public bool Sucesso { get; set; }
         public string Erro { get; set; }
-        public int Id { get; set; }
 
-        public UsuarioPostOutput(int id)
-        {
-            this.Id = id;
-            this.Sucesso = true;
-        }
-
-        public UsuarioPostOutput(bool sucesso, string erro)
+        public UsuarioPostOutput(bool sucesso, string erro = "")
         {
             this.Sucesso = sucesso;
             this.Erro = erro;

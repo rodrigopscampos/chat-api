@@ -9,12 +9,13 @@ namespace chat_api.DTO.Input
     public class MensagemInput
     {
         [Required]
-        public int Remetente { get; set; }
+        public string Remetente { get; set; }
 
         [Required]
         public string Texto { get; set; }
 
-        [Required]
-        public int Destinatario { get; set; }
+        public string Destinatario { get; set; }
+
+        public bool? Reservada { get; set; }
     }
 }

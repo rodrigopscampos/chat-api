@@ -8,57 +8,52 @@ namespace chat_api.DAL
 {
     public class RepositorioEmMemoria : IRepositorio
     {
-        List<Usuario> _usuarios = new List<Usuario>()
+        int _msgId = 0;
+        int _usuarioId = 0;
+
+        List<Mensagem> _mensagens = new List<Mensagem>();
+        Dictionary<string, Usuario> _usuarios = new Dictionary<string, Usuario>();
+
+        public IEnumerable<Usuario> GetUsuarios(int sequencial)
         {
-            new Usuario { Id = 1, Nome = "Rodrigo" },
-            new Usuario { Id = 2, Nome = "Gabriel" },
-            new Usuario { Id = 3, Nome = "Oliver" },
-        };
+            return _usuarios.Values.Where(u => u.Id > sequencial).ToArray();
+        }
 
-        List<Mensagem> _mensagens
-            = new List<Mensagem>();
-
-        public IEnumerable<Usuario> GetUsuarios() => _usuarios;
-
-        public bool TryAddUsuario(UsuarioInput usuario, out int id)
+        public bool AddUsuario(UsuarioInput usuario, out string erro)
         {
-            if (_usuarios.Any(u => u.Nome == usuario.Nome))
+            if (_usuarios.ContainsKey(usuario.Nome))
             {
-                id = 0;
+                erro = "Apelido já está em uso";
                 return false;
             }
-
-            id = _usuarios.Any() ? _usuarios.Max(u => u.Id) + 1 : 1;
-
-            _usuarios.Add(new Usuario()
+            else
             {
-                Nome = usuario.Nome,
-                Id = id
-            });
-
-            return true;
+                var id = ++_usuarioId;
+                _usuarios.Add(usuario.Nome, new Usuario { Nome = usuario.Nome, Id = id });
+                erro = null;
+                return true;
+            }
         }
 
-        public bool TryAddMensagem(MensagemInput mensagem)
+        public void AddMensagem(MensagemInput mensagem)
         {
-            var id = _mensagens.Any() ? _mensagens.Max(u => u.Id) + 1 : 1;
+            _msgId++;
 
-            _mensagens.Add(new Mensagem
+            var m = new Mensagem
             {
-                Id = id,
+                Id = _msgId,
                 Texto = mensagem.Texto,
                 Rementente = mensagem.Remetente,
-                Destinatario = mensagem.Destinatario
-            });
+                Destinatario = mensagem.Destinatario,
+                Reservada = mensagem.Reservada.HasValue ? mensagem.Reservada.Value : false
+            };
 
-            return true;
+            _mensagens.Add(m);
         }
 
-        public IEnumerable<Mensagem> GetMensagens(int destinatario, int seqnumInicio)
+        public IEnumerable<Mensagem> GetMensagens(int sequencial)
         {
-            return _mensagens
-                .Where(m => m.Destinatario == destinatario && m.Id > seqnumInicio)
-                .OrderBy(m => m.Id);
+            return _mensagens.Where(m => m.Id > sequencial).ToArray();
         }
     }
 }
