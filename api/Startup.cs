@@ -31,29 +31,10 @@ namespace chat_api
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc(options =>
-            {
-
-            })
-            .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-            //_tipoBD = Configuration.GetSection("BD")?.GetValue<string>("TIPO")?.ToLower() ?? "mysql";
-            _tipoBD = "memoria";
-
-            if (_tipoBD == "memoria")
-            {
-                services.AddSingleton(typeof(IRepositorio), typeof(RepositorioEmMemoria));
-            }
-            else
-            {
-                //var connectionString = CriarConnectionString();
-                //services.AddSingleton(typeof(IRepositorio), (serviceProvider) => new RepositorioMySql(
-                //    connectionString,
-                //    serviceProvider.GetService<ILogger<RepositorioMySql>>()));
-            }
+            services.AddMvc(options => {}).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddSingleton(typeof(IRepositorio), typeof(RepositorioEmMemoria));
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
@@ -99,18 +80,6 @@ namespace chat_api
             });
 
             app.UseMvc();
-        }
-
-        private string CriarConnectionString()
-        {
-            var configSessao = Configuration.GetSection("BD");
-
-            var servidor = configSessao.GetValue<string>("SERVIDOR");
-            var usuario = configSessao.GetValue<string>("USUARIO");
-            var senha = configSessao.GetValue<string>("SENHA");
-            var database = configSessao.GetValue<string>("DATABASE");
-
-            return $"Server={servidor};Database={database};Uid={usuario};Pwd={senha};";
         }
     }
 }
