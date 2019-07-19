@@ -34,11 +34,8 @@ namespace chat_api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc(options =>
-            {
-
-            })
-            .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             _tipoBD = Configuration.GetSection("BD")?.GetValue<string>("TIPO")?.ToLower() ?? "mysql";
 
@@ -94,9 +91,10 @@ namespace chat_api
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
-                c.RoutePrefix = string.Empty;
+                //c.RoutePrefix = "";
             });
 
+            app.UseStaticFiles();
             app.UseMvc();
         }
 

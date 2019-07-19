@@ -19,7 +19,7 @@
     },
     "chat_api": {
       "commandName": "Project",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "launchUrl": "",
       "applicationUrl": "http://127.0.0.1:5000",
       "environmentVariables": {
