@@ -4,6 +4,7 @@ using System.Linq;
 using chat_api.Domain.Interfaces;
 using chat_api.DTO.Input;
 using chat_api.DTO.Output;
+using System;
 
 namespace chat_api.Controllers
 {
@@ -40,7 +41,11 @@ namespace chat_api.Controllers
         {
             if (_repositorio.TryAddUsuario(usuario, out var id))
             {
-                return new UsuarioPostOutput(id);
+                var location = "http://localhost:5000";
+                return new UsuarioPostOutput(
+                    id,
+                    Guid.NewGuid().ToString(),
+                    location);
             }
             else
             {

@@ -1,26 +1,30 @@
-const BASE_URL = 'http://localhost:5000/'
-const URL_USUARIOS = BASE_URL + 'usuarios'
+BASE_URL = 'http://localhost:5000'
+URL_LOGIN = BASE_URL + '/login.html'
 
-MY_ID = 1
-const URL_MENSAGENS = BASE_URL + 'mensagens?destinatario=' + MY_ID + '&seqnum=0'
-const URL_MENSAGENS_POST = BASE_URL + 'mensagens'
-
-/*
-{
-    "id": 0,
-    "remetente": 0,
-    "texto": "string",
-    "destinatario": 0
-}
-*/
+//serão carregadas do servidor no onload
+URL_USUARIOS = ''
+URL_MENSAGENS = ''
+URL_MENSAGENS_POST = ''
 
 _usuarios = []
 _mensagens = []
 _usuario_selecionado = {}
 
 window.onload = function () {
-    loadUsers();
-    loadMessages();
+
+    let location = localStorage.getItem('MY_LOCATION');
+    if (location == null) {
+        console.log(location)
+        document.location = URL_LOGIN;
+    }
+    else {
+        MY_ID = localStorage.getItem('MY_ID');
+        URL_MENSAGENS = BASE_URL + '/mensagens?destinatario=' + MY_ID + '&seqnum=0';
+        URL_MENSAGENS_POST = BASE_URL + '/mensagens';
+        URL_USUARIOS = BASE_URL + '/usuarios';
+        loadUsers();
+        loadMessages();
+    }
 }
 
 function loadUsers() {
@@ -115,7 +119,8 @@ function templateUsuarios() {
                     </li>`
     });
 
-    document.getElementById('lista-usuarios').innerHTML = template
+    lista_usuarios = document.getElementById('lista-usuarios');
+    if (lista_usuarios != null) lista_usuarios.innerHTML = template
 }
 
 function logar() {
@@ -134,15 +139,10 @@ function logar() {
     ).then(function (response) {
         return response.json();
     }).then(function (json) {
-        /*
-        {
-            "sucesso": true,
-            "erro": "string",
-            "id": 0
-        }
-        */
-       MY_ID = json.id;
-       
+        localStorage.setItem("MY_ID", json.id);
+        localStorage.setItem("MY_TOKEN", json.token);
+        localStorage.setItem("MY_LOCATION", json.location);
+        document.location = json.location + "/index.html";
     }).catch(function (err) {
         console.error(err);
     });
