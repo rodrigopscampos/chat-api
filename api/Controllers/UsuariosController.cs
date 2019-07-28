@@ -25,9 +25,9 @@ namespace chat_api.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<IEnumerable<UsuarioOutput>> Get()
+        public ActionResult<IEnumerable<UsuarioOutput>> Get(int usuarioId)
         {
-            var usuarios = _repositorio.GetUsuarios();
+            var usuarios = _repositorio.GetUsuarios().Where(u => u.Id != usuarioId);
             return usuarios.Select(u => new UsuarioOutput(u)).ToArray();
         }
 

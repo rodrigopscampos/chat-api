@@ -1,40 +1,27 @@
-BASE_URL = 'http://localhost:5000'
-URL_LOGIN = BASE_URL + '/login.html'
-
-//serão carregadas do servidor no onload
-URL_USUARIOS = ''
-URL_MENSAGENS = ''
-URL_MENSAGENS_POST = ''
-
 _usuarios = []
 _mensagens = []
 _usuario_selecionado = {}
 
 window.onload = function () {
 
-    let location = localStorage.getItem('MY_LOCATION');
-    if (location == null) {
-        console.log(location)
-        document.location = URL_LOGIN;
+    MY_ID = sessionStorage.getItem('MY_ID');
+
+    if(MY_ID == null)
+    {
+        document.location.href = '/login.html';
+        return;
     }
-    else {
-        MY_ID = localStorage.getItem('MY_ID');
-        URL_MENSAGENS = BASE_URL + '/mensagens?destinatario=' + MY_ID + '&seqnum=0';
-        URL_MENSAGENS_POST = BASE_URL + '/mensagens';
-        URL_USUARIOS = BASE_URL + '/usuarios';
-        loadUsers();
-        loadMessages();
-    }
+    
+    loadUsers();
+    loadMessages();
 }
 
 function loadUsers() {
-    fetch(URL_USUARIOS)
+    fetch('/usuarios?usuarioId=' + MY_ID)
         .then(function (response) {
             return response.json();
         }).then(function (usuarios) {
-            usuarios
-                .filter(u => u.id != MY_ID)
-                .forEach(u => _usuarios[u.id] = u);
+            usuarios.forEach(u => _usuarios[u.id] = u);
             templateUsuarios()
         }).catch(function (err) {
             console.error(err);
@@ -43,10 +30,22 @@ function loadUsers() {
 
 function loadMessages() {
     return new Promise((resolve, reject) => {
-        fetch(URL_MENSAGENS)
+        let seqNum = sessionStorage.getItem('MY_MSG_SEQNUM');
+        if(seqNum == null) seqNum = 0;
+
+        fetch('/mensagens?destinatario=' + MY_ID + '&seqnum=' + seqNum)
             .then(response => response.json())
             .then(msgs => {
                 msgs.forEach(m => _mensagens[m.id] = m);
+
+                let maxSeqNum = _mensagens[0].id;
+
+                 _mensagens.forEach(m => {
+                     if (m.id > maxSeqNum) maxSeqNum = m.id;
+                 });
+
+                 sessionStorage.setItem('MY_MSG_SEQNUM', maxSeqNum);
+
                 resolve();
             })
     });
@@ -55,7 +54,7 @@ function loadMessages() {
 function onSendMessage() {
     const message = document.getElementById('mensagem-text').value;
 
-    fetch(URL_MENSAGENS_POST, {
+    fetch('/mensagens', {
         headers: { "Content-Type": "application/json; charset=utf-8" },
         method: 'POST',
         body: JSON.stringify({
@@ -77,8 +76,9 @@ function onfriend(usuarioId) {
 }
 
 function renderMessages() {
-    console.debug('render');
-    messages = _mensagens.filter(m => m.destinatario == _usuario_selecionado.id || m.remetente == _usuario_selecionado.id);
+    messages = _mensagens.filter(m =>
+           m.destinatario == _usuario_selecionado.id 
+        || m.remetente == _usuario_selecionado.id);
 
     paragraphs = messages.map(m => {
         if (m.remetente == MY_ID) {
@@ -121,33 +121,4 @@ function templateUsuarios() {
 
     lista_usuarios = document.getElementById('lista-usuarios');
     if (lista_usuarios != null) lista_usuarios.innerHTML = template
-}
-
-function logar() {
-
-    event.preventDefault();
-    let usuario = document.getElementById('login').value
-
-    fetch(URL_USUARIOS, {
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        method: "POST",
-        body: JSON.stringify({ nome: usuario })
-    }
-    ).then(function (response) {
-        return response.json();
-    }).then(function (json) {
-        localStorage.setItem("MY_ID", json.id);
-        localStorage.setItem("MY_TOKEN", json.token);
-        localStorage.setItem("MY_LOCATION", json.location);
-        document.location = json.location + "/index.html";
-    }).catch(function (err) {
-        console.error(err);
-    });
-
-    document.getElementsByClassName("login-box")[0].style.display = "none";
-
-    return false;
 }
