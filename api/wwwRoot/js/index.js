@@ -1,28 +1,54 @@
 _usuarios = []
 _mensagens = []
 _usuario_selecionado = {}
+_messages_seqnum = 0
+_refresh_interval_ms = 500
 
 window.onload = function () {
 
-    MY_ID = sessionStorage.getItem('MY_ID');
-
-    if(MY_ID == null)
-    {
-        document.location.href = '/login.html';
+    let myId = getMyId()
+    if (myId == null) {
+        document.location.assign('/login.html');
         return;
     }
-    
+
     loadUsers();
     loadMessages();
+
+    start_autorefresh()
+}
+
+function getMyId() {
+    return sessionStorage.getItem('MY_ID');
+}
+
+function start_autorefresh() {
+    setInterval(function () {
+        loadUsers()
+        loadMessages()
+
+    }, _refresh_interval_ms)
 }
 
 function loadUsers() {
-    fetch('/usuarios?usuarioId=' + MY_ID)
+    fetch('/usuarios?usuarioId=' + getMyId())
         .then(function (response) {
             return response.json();
         }).then(function (usuarios) {
-            usuarios.forEach(u => _usuarios[u.id] = u);
-            templateUsuarios()
+
+            let atualHash = 0;
+            let novoHash = 0;
+
+            if (_usuarios.length > 0)
+                atualHash = _usuarios.map(u => u.id).reduce((a, b) => a + b)
+
+            if (usuarios.length > 0)
+                novoHash = usuarios.map(u => u.id).reduce((a, b) => a + b)
+
+            if (atualHash != novoHash) {
+                usuarios.forEach(u => _usuarios[u.id] = u);
+                templateUsuarios()
+            }
         }).catch(function (err) {
             console.error(err);
         });
@@ -30,21 +56,22 @@ function loadUsers() {
 
 function loadMessages() {
     return new Promise((resolve, reject) => {
-        let seqNum = sessionStorage.getItem('MY_MSG_SEQNUM');
-        if(seqNum == null) seqNum = 0;
-
-        fetch('/mensagens?destinatario=' + MY_ID + '&seqnum=' + seqNum)
+        fetch('/mensagens?destinatario=' + getMyId() + '&seqnum=' + _messages_seqnum)
             .then(response => response.json())
             .then(msgs => {
-                msgs.forEach(m => _mensagens[m.id] = m);
 
-                let maxSeqNum = _mensagens[0].id;
+                if (msgs.length > 0) {
+                    msgs.forEach(m => _mensagens[m.id] = m);
 
-                 _mensagens.forEach(m => {
-                     if (m.id > maxSeqNum) maxSeqNum = m.id;
-                 });
+                    if (_mensagens.length > 0) {
+                        _messages_seqnum = _mensagens
+                            .map(v => v.id)
+                            .reduce((a, b) => Math.max(a, b))
+                    }
 
-                 sessionStorage.setItem('MY_MSG_SEQNUM', maxSeqNum);
+                    renderMessages();
+                }
+
 
                 resolve();
             })
@@ -58,7 +85,7 @@ function onSendMessage() {
         headers: { "Content-Type": "application/json; charset=utf-8" },
         method: 'POST',
         body: JSON.stringify({
-            remetente: MY_ID,
+            remetente: getMyId(),
             texto: message,
             destinatario: _usuario_selecionado.id
         })
@@ -76,12 +103,13 @@ function onfriend(usuarioId) {
 }
 
 function renderMessages() {
+
     messages = _mensagens.filter(m =>
-           m.destinatario == _usuario_selecionado.id 
+        m.destinatario == _usuario_selecionado.id
         || m.remetente == _usuario_selecionado.id);
 
     paragraphs = messages.map(m => {
-        if (m.remetente == MY_ID) {
+        if (m.remetente == getMyId()) {
             return `<p class="talkimessage">${m.texto}</p>`
         }
         else {

@@ -11,31 +11,31 @@ namespace chat_api.DAL
     {
         List<Usuario> _usuarios = new List<Usuario>()
         {
-            new Usuario { Id = 1, Nome = "Rodrigo" },
-            new Usuario { Id = 2, Nome = "Gabriel" },
-            new Usuario { Id = 3, Nome = "Oliver" },
+            //new Usuario { Id = 1, Nome = "Rodrigo" },
+            //new Usuario { Id = 2, Nome = "Gabriel" },
+            //new Usuario { Id = 3, Nome = "Oliver" },
         };
 
         static int m = 0;
         List<Mensagem> _mensagens = new List<Mensagem>()
         {
-            new Mensagem { Id = m++, Rementente = 1, Destinatario = 2, Texto = Guid.NewGuid().ToString()},
-            new Mensagem { Id = m++, Rementente = 2, Destinatario = 1, Texto = Guid.NewGuid().ToString() },
-            new Mensagem { Id = m++, Rementente = 1, Destinatario = 2, Texto = Guid.NewGuid().ToString()},
-            new Mensagem { Id = m++, Rementente = 2, Destinatario = 1, Texto = Guid.NewGuid().ToString() },
-            new Mensagem { Id = m++, Rementente = 1, Destinatario = 2, Texto = Guid.NewGuid().ToString()},
-            new Mensagem { Id = m++, Rementente = 2, Destinatario = 1, Texto = Guid.NewGuid().ToString() },
-            new Mensagem { Id = m++, Rementente = 1, Destinatario = 2, Texto = Guid.NewGuid().ToString()},
-            new Mensagem { Id = m++, Rementente = 2, Destinatario = 1, Texto = Guid.NewGuid().ToString() },
+            //new Mensagem { Id = m++, Rementente = 1, Destinatario = 2, Texto = Guid.NewGuid().ToString()},
+            //new Mensagem { Id = m++, Rementente = 2, Destinatario = 1, Texto = Guid.NewGuid().ToString() },
+            //new Mensagem { Id = m++, Rementente = 1, Destinatario = 2, Texto = Guid.NewGuid().ToString()},
+            //new Mensagem { Id = m++, Rementente = 2, Destinatario = 1, Texto = Guid.NewGuid().ToString() },
+            //new Mensagem { Id = m++, Rementente = 1, Destinatario = 2, Texto = Guid.NewGuid().ToString()},
+            //new Mensagem { Id = m++, Rementente = 2, Destinatario = 1, Texto = Guid.NewGuid().ToString() },
+            //new Mensagem { Id = m++, Rementente = 1, Destinatario = 2, Texto = Guid.NewGuid().ToString()},
+            //new Mensagem { Id = m++, Rementente = 2, Destinatario = 1, Texto = Guid.NewGuid().ToString() },
 
-            new Mensagem { Id = m++, Rementente = 1, Destinatario = 3, Texto = Guid.NewGuid().ToString()},
-            new Mensagem { Id = m++, Rementente = 3, Destinatario = 1, Texto = Guid.NewGuid().ToString() },
-            new Mensagem { Id = m++, Rementente = 1, Destinatario = 3, Texto = Guid.NewGuid().ToString()},
-            new Mensagem { Id = m++, Rementente = 3, Destinatario = 1, Texto = Guid.NewGuid().ToString() },
-            new Mensagem { Id = m++, Rementente = 1, Destinatario = 3, Texto = Guid.NewGuid().ToString()},
-            new Mensagem { Id = m++, Rementente = 3, Destinatario = 1, Texto = Guid.NewGuid().ToString() },
-            new Mensagem { Id = m++, Rementente = 1, Destinatario = 3, Texto = Guid.NewGuid().ToString()},
-            new Mensagem { Id = m++, Rementente = 3, Destinatario = 1, Texto = Guid.NewGuid().ToString() },
+            //new Mensagem { Id = m++, Rementente = 1, Destinatario = 3, Texto = Guid.NewGuid().ToString()},
+            //new Mensagem { Id = m++, Rementente = 3, Destinatario = 1, Texto = Guid.NewGuid().ToString() },
+            //new Mensagem { Id = m++, Rementente = 1, Destinatario = 3, Texto = Guid.NewGuid().ToString()},
+            //new Mensagem { Id = m++, Rementente = 3, Destinatario = 1, Texto = Guid.NewGuid().ToString() },
+            //new Mensagem { Id = m++, Rementente = 1, Destinatario = 3, Texto = Guid.NewGuid().ToString()},
+            //new Mensagem { Id = m++, Rementente = 3, Destinatario = 1, Texto = Guid.NewGuid().ToString() },
+            //new Mensagem { Id = m++, Rementente = 1, Destinatario = 3, Texto = Guid.NewGuid().ToString()},
+            //new Mensagem { Id = m++, Rementente = 3, Destinatario = 1, Texto = Guid.NewGuid().ToString() },
         };
 
         public IEnumerable<Usuario> GetUsuarios() => _usuarios;
