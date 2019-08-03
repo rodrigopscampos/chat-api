@@ -2,20 +2,16 @@
     display: flex;
     justify-content: space-between;
     /* height: 10%; */
-    padding: 10px;
     background-color: #eeeeee;
-}
+    border-radius: 5%;
+    padding: 10px;
+    margin: 10px;
 
-.headerperfil__figure {
-    width: 45px;
-    height: 45px;
+    font-size: 25px;
+    text-align: center;
+    margin: 10px;
+    padding: 10px;
     overflow: hidden;
-    border-radius: 50%;
-}
-
-.headerperfil__image {
-    width: 45px;
-    height: 45px;
 }
 
 .headerperfil__icons-container {

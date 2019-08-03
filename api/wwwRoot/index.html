@@ -31,13 +31,8 @@
             <!-- LISTA DE USUÁRIOS -->
             <section class="leftcol">
                 <header class="headerperfil">
-                    <figure class="headerperfil__figure">
-                        <img class="headerperfil__image" src="image/perfil.jpeg" alt="foto">
-                    </figure>
-                    <div class="headerperfil__icons-container">
-                        <i class="fas fa-circle-notch headerperfil__icons"></i>
-                        <i class="far fa-comment-alt headerperfil__icons"></i>
-                        <i class="fas fa-ellipsis-v headerperfil__icons"></i>
+                    <div>
+                            Bem-Vindo Rodrigo
                     </div>
                 </header>
 
@@ -45,7 +40,7 @@
                     <label class="searchmessage__label" for="searchmessage-usuario">
                         <i class="fas fa-search searchmessage__icon"></i>
                         <input type="text" class="searchmessage__input" id="searchmessage-usuario"
-                            placeholder="Procurar">
+                            placeholder="Procurar" readonly>
                     </label>
                 </div>
 
@@ -56,17 +51,21 @@
                 </div>
             </section>
 
-            
+
 
             <!-- COLUNA DE MENSAGENS -->
             <section id="rightcol" class="rightcol">
                 <span id="back" class="rightcol__back"><i class="fas fa-arrow-left"></i></span>
                 <header class="talkheader">
                     <figure class="talkheader__picture-container">
-                        <img class="talkheader__picture" src="image/usuarios/rodrigo.jpeg" alt="foto">
+                        <!--<img class="talkheader__picture" src="image/usuarios/rodrigo.jpeg" alt="foto">-->
+                        <div class="talkheader__iniciais">
+                                <span id="friend_iniciais" ></span>
+                        </div>
+                        
                     </figure>
                     <div class="talkheader__user-container">
-                        <h4>Rodrigo</h4>
+                        <h4><span id="friend_name"></span></h4>
                     </div>
                 </header>
 
@@ -74,7 +73,7 @@
                 <div class="talkbox" id="talkboxscroll">
                     <p class="talkbox__title">conversas</p>
                     <div id="talkmessages">
-                        
+
                         <!--
                             <p class="talkyoumessage">Lorem ipsum dolor sit amet consectetur adipisicing elit.
                             Cum itaque

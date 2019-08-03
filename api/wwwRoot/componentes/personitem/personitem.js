@@ -6,7 +6,7 @@ for (let index = 0; index < itens.length; index++) {
 }
 
 function iniciarMensagem() {
-    if(screen.width < 992){
+    if(document.body.clientWidth < 992){
         document.getElementById("rightcol").style.left = 0
     }
     

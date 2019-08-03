@@ -26,3 +26,7 @@ body {
     top: 0;
     left: 0;
 }
+
+.on_friend_selected {
+    background-color: darkgrey;
+}

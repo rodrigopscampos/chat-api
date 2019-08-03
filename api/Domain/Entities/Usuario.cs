@@ -9,5 +9,7 @@ namespace chat_api.Domain.Entities
     {
         public int Id { get; set; }
         public string Nome { get; set; }
+
+        public DateTime UltimoRequest { get; set; }
     }
 }

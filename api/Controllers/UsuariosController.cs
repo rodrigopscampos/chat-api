@@ -27,7 +27,13 @@ namespace chat_api.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<UsuarioOutput>> Get(int usuarioId)
         {
-            var usuarios = _repositorio.GetUsuarios().Where(u => u.Id != usuarioId);
+            var usuarios = _repositorio
+                .GetUsuarios()
+                .Where(u => u.Id != usuarioId)
+                .Where(u => u.UltimoRequest > DateTime.Now.AddSeconds(-5));
+
+            AtualizaDataUltimaInteracao(usuarioId);
+
             return usuarios.Select(u => new UsuarioOutput(u)).ToArray();
         }
 
@@ -51,6 +57,14 @@ namespace chat_api.Controllers
             {
                 return new UsuarioPostOutput(sucesso: false, erro: "Nome já utilizado");
             }
+        }
+
+        private void AtualizaDataUltimaInteracao(int usuarioId)
+        {
+            var usuario = _repositorio.GetUsuarios().FirstOrDefault(u => u.Id == usuarioId);
+
+            if (usuario != null)
+                usuario.UltimoRequest = DateTime.Now;
         }
     }
 }

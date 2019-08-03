@@ -7,6 +7,13 @@
     background-color: #eeeeee;
 }
 
+.talkheader__iniciais {
+    border-radius: 50%;
+    font-size: 35px;
+    background-color: aliceblue;
+    padding-right: 5px;
+}
+
 .talkheader__picture-container {
     width: 40px;
     height: 40px;

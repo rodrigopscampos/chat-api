@@ -46,6 +46,9 @@ function loadUsers() {
                 novoHash = usuarios.map(u => u.id).reduce((a, b) => a + b)
 
             if (atualHash != novoHash) {
+                
+                //bug: se um usuário desloga, ele não some da lista
+
                 usuarios.forEach(u => _usuarios[u.id] = u);
                 templateUsuarios()
             }
@@ -98,8 +101,18 @@ function onSendMessage() {
 
 //ao clicar em um item na lista de amigos
 function onfriend(usuarioId) {
+    iniciarMensagem()
     _usuario_selecionado = _usuarios[usuarioId]
     renderMessages()
+
+    let friends = document.getElementsByClassName('personitem');
+    for (let index = 0; index < friends.length; index++) {
+        friends[index].classList.remove('pensonitem__selected')
+    }
+    
+    document.getElementById('friend_' + usuarioId).classList.add('pensonitem__selected')
+    document.getElementById('friend_name').innerHTML = _usuario_selecionado.nome
+    document.getElementById('friend_iniciais').innerHTML = _usuario_selecionado.iniciais
 }
 
 function renderMessages() {
@@ -129,10 +142,11 @@ function templateUsuarios() {
 
     _usuarios.forEach(usuario => {
 
-        template += `<li class="personitem" onclick='onfriend(${usuario.id})'>
+        //<img class="personitem__avatar-image" src="image/svg/man0.svg" alt="foto">
+        template += `<li class="personitem" id='friend_${usuario.id}' onclick='onfriend(${usuario.id})'>
                         <div class="personitem__box">
                             <figure class="personitem__avatar">
-                                <img class="personitem__avatar-image" src="image/svg/man0.svg" alt="foto">
+                                <span class=personitem__avatar-span>${usuario.iniciais}</span>
                             </figure>
                         </div>
 
@@ -149,4 +163,5 @@ function templateUsuarios() {
 
     lista_usuarios = document.getElementById('lista-usuarios');
     if (lista_usuarios != null) lista_usuarios.innerHTML = template
+
 }

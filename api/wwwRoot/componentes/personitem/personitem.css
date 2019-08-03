@@ -7,6 +7,10 @@
     background-color: #fff;
 }
 
+.pensonitem__selected {
+    background-color: #ddd;
+}
+
 .personitem:hover {
     background-color: #eee;
 }
@@ -23,6 +27,12 @@
     width: 50px;
     height: 50px;
     border: none;
+}
+
+.personitem__avatar-span {
+    font-size: 35px;
+    background-color: aliceblue;
+    padding-right: 5px;
 }
 
 .personitem__detail {
