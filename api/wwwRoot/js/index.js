@@ -12,6 +12,9 @@ window.onload = function () {
         return;
     }
 
+    let username = sessionStorage.getItem("MY_NAME");
+    document.getElementById('div_name').innerHTML = "Bem-Vindo " + username;
+
     loadUsers();
     loadMessages();
 

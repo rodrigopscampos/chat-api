@@ -20,6 +20,8 @@ function logar() {
         return response.json();
     }).then(function (json) {
         sessionStorage.setItem("MY_ID", json.id);
+        sessionStorage.setItem("MY_NAME", usuario);
+
         document.location.assign("/index.html"); 
     }).catch(function (err) {
         console.error(err);
