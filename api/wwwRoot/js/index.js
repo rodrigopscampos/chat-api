@@ -168,3 +168,14 @@ function templateUsuarios() {
     if (lista_usuarios != null) lista_usuarios.innerHTML = template
 
 }
+
+function onMensagemTextKeyPress() {
+    
+    let keyEnter = 13;
+    var key = window.event.keyCode;
+
+    if (key === keyEnter) {
+        
+        onSendMessage();
+    }
+};
