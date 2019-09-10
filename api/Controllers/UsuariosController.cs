@@ -61,10 +61,7 @@ namespace chat_api.Controllers
 
         private void AtualizaDataUltimaInteracao(int usuarioId)
         {
-            var usuario = _repositorio.GetUsuarios().FirstOrDefault(u => u.Id == usuarioId);
-
-            if (usuario != null)
-                usuario.UltimoRequest = DateTime.Now;
+            _repositorio.AtualizaDataUltimaInteracao(usuarioId);
         }
     }
 }

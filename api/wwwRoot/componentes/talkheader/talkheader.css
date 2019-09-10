@@ -7,6 +7,10 @@
     background-color: #eeeeee;
 }
 
+h4 {
+    font-size: 1.5rem;
+    font-weight: normal;
+}
 .talkheader__iniciais {
     border-radius: 50%;
     font-size: 35px;
@@ -20,6 +24,7 @@
     margin-left: 35px;
     overflow: hidden;
     border-radius: 50%;
+    padding-top: 7px;
     /* border: 1px solid #beb7b7; */
 }
 
@@ -83,3 +88,10 @@
         margin-left: 0;
     }
 }
+.talkheader__picture-container {
+    width: 40px;
+    height: 40px;
+    margin-left: 35px;
+    overflow: hidden;
+    border-radius: 50%;
+    padding-top: 7px;}

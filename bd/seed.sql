@@ -4,7 +4,8 @@ use api;
 create table usuarios
 (
 	id int primary key auto_increment,
-    nome varchar(200) not null
+    nome varchar(200) not null,
+	dt_ultimo_request DateTime
 );
 
 create table mensagens

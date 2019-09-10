@@ -11,5 +11,6 @@ namespace chat_api.Domain.Interfaces
 
         IEnumerable<Mensagem> GetMensagens(int destinatario, int seqnumInicio);
         bool TryAddMensagem(MensagemInput mensagem);
+        void AtualizaDataUltimaInteracao(int usuarioId);
     }
 }

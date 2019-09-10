@@ -80,5 +80,13 @@ namespace chat_api.DAL
                 .Where(m => (m.Destinatario == destinatario || m.Rementente == destinatario) && m.Id > seqnumInicio)
                 .OrderBy(m => m.Id);
         }
+
+        public void AtualizaDataUltimaInteracao(int usuarioId)
+        {
+            var usuario = GetUsuarios().FirstOrDefault(u => u.Id == usuarioId);
+
+            if (usuario != null)
+                usuario.UltimoRequest = DateTime.Now;
+        }
     }
 }

@@ -21,13 +21,32 @@ namespace chat_api.DAL
             _logger = logger;
         }
 
+        public void AtualizaDataUltimaInteracao(int usuarioId)
+        {
+            using (var conn = CriarConexao())
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = "update usuarios set dt_ultimo_request = now() where id = @id";
+                cmd.Parameters.Add(new MySqlParameter("@id", usuarioId));
+                cmd.ExecuteNonQuery();
+            }
+        }
+
         public IEnumerable<Mensagem> GetMensagens(int destinatario, int seqnumInicio)
         {
             using (var conn = CriarConexao())
             using (var cmd = conn.CreateCommand())
             {
                 cmd.CommandText =
-                    "select id, texto, destinatario from mensagens where destinatario = @destinatario and id > @seqnum";
+                    @"select 
+                        id, 
+                        texto, 
+                        destinatario 
+                    from 
+                        mensagens 
+                    where 
+                        (destinatario = @destinatario or remetente = @destinatario)
+                        and id >= @seqnum";
 
                 cmd.Parameters.Add(new MySqlParameter("@destinatario", destinatario));
                 cmd.Parameters.Add(new MySqlParameter("@seqnum", seqnumInicio));
@@ -57,7 +76,7 @@ namespace chat_api.DAL
             using (var cmd = conn.CreateCommand())
             {
                 cmd.CommandText =
-                    "select id, nome from usuarios";
+                    "select id, nome, dt_ultimo_request from usuarios";
 
                 using (var dr = cmd.ExecuteReader())
                 {
@@ -67,6 +86,9 @@ namespace chat_api.DAL
                         var u = new Usuario();
                         u.Id = Convert.ToInt32(dr["id"]);
                         u.Nome = Convert.ToString(dr["nome"]);
+
+                        var dt = dr["dt_ultimo_request"];
+                        if (dt != DBNull.Value) u.UltimoRequest = Convert.ToDateTime(dt);
 
                         resultado.Add(u);
                     }
