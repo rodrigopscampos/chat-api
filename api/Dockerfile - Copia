@@ -1,0 +1,25 @@
+# Declara um ambiente dotnet:sdk apelidado de build-env
+FROM microsoft/dotnet:sdk AS build-env
+WORKDIR /app
+
+# Copia o csproj para dentro do build-env e restaura os pacotes Nuget
+COPY *.csproj ./
+RUN dotnet restore
+
+# Faz um build e copia o resultado para dentro do build-env
+COPY . ./
+RUN dotnet publish -c Release -o out
+
+# Declara um ambiente aspnetcore-runtime
+FROM microsoft/dotnet:aspnetcore-runtime
+WORKDIR /app
+
+#Copia o build feito no build-env para o aspnetcore-runtime
+COPY --from=build-env /app/out .
+
+#Configura algumas variáveis de ambiente (configuração da aplicação)
+ENV ASPNETCORE_URLS=http://+:5000
+ENV BD__TIPO=memoria
+
+#Expecifica que a inicialização da aplicação é dada por dotnet chat-api.dll
+ENTRYPOINT ["dotnet", "chat-api.dll"]

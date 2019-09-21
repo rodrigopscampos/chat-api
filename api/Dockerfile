@@ -1,20 +1,11 @@
-FROM microsoft/dotnet:sdk AS build-env
-WORKDIR /app
-
-# Copy csproj and restore as distinct layers
-COPY *.csproj ./
-RUN dotnet restore
-
-# Copy everything else and build
-COPY . ./
-RUN dotnet publish -c Release -o out
-
-# Build runtime image
 FROM microsoft/dotnet:aspnetcore-runtime
 WORKDIR /app
-COPY --from=build-env /app/out .
 
+COPY out /app/out
+
+#Configura algumas variáveis de ambiente (configuração da aplicação)
 ENV ASPNETCORE_URLS=http://+:5000
 ENV BD__TIPO=memoria
 
+#Expecifica que a inicialização da aplicação é dada por dotnet chat-api.dll
 ENTRYPOINT ["dotnet", "chat-api.dll"]

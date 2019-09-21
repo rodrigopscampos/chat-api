@@ -8,52 +8,55 @@ namespace chat_api.DAL
 {
     public class RepositorioEmMemoria : IRepositorio
     {
-        int _msgId = 0;
+        List<Mensagem> _mensagens = new List<Mensagem>();
+        int _mensagemId = 0;
+
+        List<Usuario> _usuarios = new List<Usuario>();
         int _usuarioId = 0;
 
-        List<Mensagem> _mensagens = new List<Mensagem>();
-        Dictionary<string, Usuario> _usuarios = new Dictionary<string, Usuario>();
-
-        public IEnumerable<Usuario> GetUsuarios(int sequencial)
+        public void AddMensagem(MensagemInput mensagem)
         {
-            return _usuarios.Values.Where(u => u.Id > sequencial).ToArray();
+            var entidade = new Mensagem()
+            {
+                Destinatario = mensagem.Destinatario,
+                Rementente = mensagem.Remetente,
+                Reservada = mensagem.Reservada.HasValue
+                 ? mensagem.Reservada.Value
+                 : false,
+                Texto = mensagem.Texto,
+                Id = ++_mensagemId
+            };
+
+            _mensagens.Add(entidade);
         }
 
         public bool AddUsuario(UsuarioInput usuario, out string erro)
         {
-            if (_usuarios.ContainsKey(usuario.Nome))
+            if (_usuarios.Any(u => u.Nome == usuario.Nome))
             {
-                erro = "Apelido já está em uso";
+                erro = "Nome já está em uso";
                 return false;
             }
-            else
-            {
-                var id = ++_usuarioId;
-                _usuarios.Add(usuario.Nome, new Usuario { Nome = usuario.Nome, Id = id });
-                erro = null;
-                return true;
-            }
-        }
 
-        public void AddMensagem(MensagemInput mensagem)
-        {
-            _msgId++;
-
-            var m = new Mensagem
+            var entidade = new Usuario()
             {
-                Id = _msgId,
-                Texto = mensagem.Texto,
-                Rementente = mensagem.Remetente,
-                Destinatario = mensagem.Destinatario,
-                Reservada = mensagem.Reservada.HasValue ? mensagem.Reservada.Value : false
+                Nome = usuario.Nome,
+                Id = ++_usuarioId
             };
 
-            _mensagens.Add(m);
+            _usuarios.Add(entidade);
+            erro = null;
+            return true;
         }
 
         public IEnumerable<Mensagem> GetMensagens(int sequencial)
         {
-            return _mensagens.Where(m => m.Id > sequencial).ToArray();
+            return _mensagens.Where(m => m.Id > sequencial);
+        }
+
+        public IEnumerable<Usuario> GetUsuarios(int sequencial)
+        {
+            return _usuarios.Where(u => u.Id > sequencial);
         }
     }
 }
