@@ -95,10 +95,10 @@ namespace chat_api.DAL
                 {
                     while(dr.Read())
                     {
-                        var msg = new Usuario();
-                        msg.Id = Convert.ToInt32(dr["id"]);
-                        msg.Nome = dr["nome"].ToString();
-                        resultado.Add(msg);
+                        var usuario = new Usuario();
+                        usuario.Id = Convert.ToInt32(dr["id"]);
+                        usuario.Nome = dr["nome"].ToString();
+                        resultado.Add(usuario);
                     }
                 }
 
