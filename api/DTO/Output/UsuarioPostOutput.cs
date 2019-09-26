@@ -7,13 +7,13 @@ namespace chat_api.DTO.Output
 {
     public class UsuarioPostOutput
     {
-        public bool Sucesso { get; set; }
         public string Erro { get; set; }
+        public string Token { get; set; }
 
-        public UsuarioPostOutput(bool sucesso, string erro = "")
+        public UsuarioPostOutput(string erro = null, string token = null)
         {
-            this.Sucesso = sucesso;
             this.Erro = erro;
+            this.Token = token;
         }
     }
 }

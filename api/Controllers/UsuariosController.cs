@@ -9,6 +9,7 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace chat_api.Controllers
 {
@@ -42,47 +43,38 @@ namespace chat_api.Controllers
         /// <param name="usuario"></param>
         /// <returns></returns>
         [HttpPost]
+        [AllowAnonymous]
         public ActionResult<UsuarioPostOutput> Post([FromBody] UsuarioInput usuario)
         {
             string erro;
             if (!_repositorio.AddUsuario(usuario, out erro))
             {
-                return BadRequest(new UsuarioPostOutput(sucesso: false, erro: erro));
+                return BadRequest(new UsuarioPostOutput(erro: erro));
             }
 
-            return Ok(new UsuarioPostOutput(sucesso: true));
+            var token = GerarTokenParaUsuario(usuario.Nome);
+            return Ok(new UsuarioPostOutput(token: token));
         }
 
-        [HttpPost]
-        [Route("auth")]
-        [AllowAnonymous]
-        public IActionResult Auth([FromBody]AuthInput input)
+        private static string GerarTokenParaUsuario(string nmUsuario)
         {
-            try
+            var geradorToken = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes("a-senha-precisa-ser-grande");
+
+            var descricaoToken = new SecurityTokenDescriptor
             {
-                if (string.IsNullOrWhiteSpace(input.Nome) || string.IsNullOrWhiteSpace(input.Senha))
+                Expires = DateTime.UtcNow.AddDays(1),
+                Issuer = "chat-api",
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+                Subject = new ClaimsIdentity(new Claim[]
                 {
-                    return BadRequest(new { message = "Usuário ou senha inválidos" });
-                }
+                    new Claim("nmUsuario", nmUsuario)
+                })
+            };
 
-                var geradorToken = new JwtSecurityTokenHandler();
-                var key = Encoding.ASCII.GetBytes("a-senha-precisa-ser-grande");
-                var descricaoToken = new SecurityTokenDescriptor
-                {
-                    Expires = DateTime.UtcNow.AddDays(1),
-                    Issuer = "chat-api",
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-                };
-
-                var token = geradorToken.CreateToken(descricaoToken);
-                var tokenStr = geradorToken.WriteToken(token);
-
-                return Ok(new AuthOutput { Token = tokenStr });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
+            var token = geradorToken.CreateToken(descricaoToken);
+            var tokenStr = geradorToken.WriteToken(token);
+            return tokenStr;
         }
     }
 }
