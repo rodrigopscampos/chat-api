@@ -15,6 +15,9 @@ using chat_api.DAL;
 using chat_api.Domain.Interfaces;
 using System.Reflection;
 using System.IO;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace chat_api
 {
@@ -34,10 +37,35 @@ namespace chat_api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc(options => {}).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services
+                .AddMvc(options => { })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            var key = Encoding.ASCII.GetBytes("a-senha-precisa-ser-grande");
+
+            services.AddAuthentication(authOptions =>
+            {
+                authOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                authOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(jwtOptions =>
+            {
+                jwtOptions.RequireHttpsMetadata = false;
+
+                jwtOptions.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = true,
+                    ValidIssuer = "chat-api",
+
+                    ValidateAudience = false
+                };
+            });
 
             var connectionString = CriarConnectionString();
-            services.AddSingleton(typeof(IRepositorio), (serviceProvider) => new RepositorioMySql(connectionString));
+            // services.AddSingleton(typeof(IRepositorio), (serviceProvider) => new RepositorioMySql(connectionString));
+            services.AddSingleton<IRepositorio, RepositorioEmMemoria>();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
@@ -70,6 +98,8 @@ namespace chat_api
                 opt.AllowAnyHeader();
                 opt.AllowAnyMethod();
             });
+
+            app.UseAuthentication();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();

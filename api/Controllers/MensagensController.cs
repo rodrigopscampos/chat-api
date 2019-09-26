@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using chat_api.Domain.Interfaces;
 using chat_api.DTO.Input;
 using chat_api.DTO.Output;
+using Microsoft.AspNetCore.Authorization;
 
 namespace chat_api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     [Produces("application/json")]
