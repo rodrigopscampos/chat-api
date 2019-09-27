@@ -21,3 +21,6 @@ rem docker attach {container id} -> conecta com o output do container
 rem docker top {container id} -> lista os processos do container
 rem docker stop {container id} -> para um container
 rem docker rm {container id} -> remove um container
+rem docker login    -> login no dockerhub
+rem docker tag {imagem id} {dockerhub}/{imagem id} -> vincula uma imagem local com uma imagem no dockerhub
+rem docker push {dockerhub}/{imagem id} -> atualiza a imagem no dockerhub
