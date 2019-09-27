@@ -36,10 +36,9 @@ services:
     environment:
         Logging__LogLevel__Default : "Information"
         ASPNETCORE_URLS: http://+:5000
-        BD__TIPO: memoria
-        
-        #BD__TIPO: mysql
-        #BD__SENHA: root
-        #BD__USUARIO: root
-        #BD__SERVIDOR: bd
-        #BD__DATABASE: api
+        #BD__TIPO: memoria
+        BD__TIPO: mysql
+        BD__SENHA: root
+        BD__USUARIO: root
+        BD__SERVIDOR: bd
+        BD__DATABASE: api

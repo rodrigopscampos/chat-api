@@ -68,12 +68,17 @@ namespace chat_api
             {
                 services.AddSingleton(typeof(IRepositorio), typeof(RepositorioEmMemoria));
             }
-            else
+            else if(_tipoBD == "mysql")
             {
                 var connectionString = CriarConnectionString();
                 services.AddSingleton(typeof(IRepositorio), (serviceProvider) => new RepositorioMySql(connectionString));
             }
-
+            else
+            {
+                _tipoBD += " -> memoria";
+                services.AddSingleton(typeof(IRepositorio), typeof(RepositorioEmMemoria));
+            }
+            
             services.AddSingleton<IRepositorio, RepositorioEmMemoria>();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
