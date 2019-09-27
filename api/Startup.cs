@@ -62,8 +62,18 @@ namespace chat_api
                 };
             });
 
-            var connectionString = CriarConnectionString();
-            // services.AddSingleton(typeof(IRepositorio), (serviceProvider) => new RepositorioMySql(connectionString));
+            _tipoBD = Configuration.GetSection("BD")?.GetValue<string>("TIPO")?.ToLower() ?? "memoria";
+
+            if (_tipoBD == "memoria")
+            {
+                services.AddSingleton(typeof(IRepositorio), typeof(RepositorioEmMemoria));
+            }
+            else
+            {
+                var connectionString = CriarConnectionString();
+                services.AddSingleton(typeof(IRepositorio), (serviceProvider) => new RepositorioMySql(connectionString));
+            }
+
             services.AddSingleton<IRepositorio, RepositorioEmMemoria>();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
