@@ -78,8 +78,6 @@ namespace chat_api
                 _tipoBD += " -> memoria";
                 services.AddSingleton(typeof(IRepositorio), typeof(RepositorioEmMemoria));
             }
-            
-            services.AddSingleton<IRepositorio, RepositorioEmMemoria>();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
