@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,7 +9,7 @@ namespace chat_api.DTO.Input
 {
     public class MensagemInput
     {
-        [Required]
+        [JsonIgnore]
         public string Remetente { get; set; }
 
         [Required]

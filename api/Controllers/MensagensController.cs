@@ -44,11 +44,7 @@ namespace chat_api.Controllers
         [HttpPost]
         public ActionResult Post(MensagemInput mensagem)
         {
-            var cli = User.FindFirst("nmUsuario").Value;
-            if (mensagem.Remetente != cli)
-            {
-                return Unauthorized();
-            }
+            mensagem.Remetente = User.FindFirst("cli").Value;
 
             _repositorio.AddMensagem(mensagem);
             return Ok();

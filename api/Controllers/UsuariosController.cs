@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using System.Security.Cryptography;
 
 namespace chat_api.Controllers
 {
@@ -59,16 +60,18 @@ namespace chat_api.Controllers
         private static string GerarTokenParaUsuario(string nmUsuario)
         {
             var geradorToken = new JwtSecurityTokenHandler();
+
+            //precisa ter no mínimo 16 caracteres
             var key = Encoding.ASCII.GetBytes("a-senha-precisa-ser-grande");
 
             var descricaoToken = new SecurityTokenDescriptor
             {
                 Expires = DateTime.UtcNow.AddDays(1),
                 Issuer = "chat-api",
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256),
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim("nmUsuario", nmUsuario)
+                    new Claim("cli", nmUsuario)
                 })
             };
 

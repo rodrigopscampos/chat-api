@@ -45,8 +45,7 @@ namespace chat_api
 
             services.AddAuthentication(authOptions =>
             {
-                authOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                authOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                authOptions.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             })
             .AddJwtBearer(jwtOptions =>
             {
@@ -57,8 +56,8 @@ namespace chat_api
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = true,
+                    RequireExpirationTime = true,
                     ValidIssuer = "chat-api",
-
                     ValidateAudience = false
                 };
             });
